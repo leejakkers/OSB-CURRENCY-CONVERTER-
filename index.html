@@ -1,195 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgriTips - Empowering Farmers</title>
-<style>
-/* styles.css */
-body {
-font-family: Arial, sans-serif;
-margin: 0;
-padding: 0;
-background-color: #f4f4f4;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Osb Currency Converter</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e0e0e0, #d3d3d3); /* Silver gradient */
+      color: #4b0082; /* Dark purple for text */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-```    header {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 0;
-        text-align: center;
+    .container {
+      background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
     }
-    
-    header h1 {
-        margin: 0;
+
+    h1 {
+      color: #4b0082; /* Dark purple */
     }
-    
-    nav ul {
-        list-style-type: none;
-        padding: 0;
+
+    .converter {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-    
-    nav ul li {
-        display: inline;
-        margin: 0 15px;
+
+    input, select, button {
+      padding: 10px;
+      border: 1px solid #4b0082;
+      border-radius: 5px;
+      font-size: 16px;
     }
-    
-    nav ul li a {
-        color: white;
-        text-decoration: none;
+
+    button {
+      background: #4b0082; /* Dark purple */
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
-    
-    section {
-        padding: 20px;
-        margin: 20px;
-        background-color: white;
-        border-radius: 8px;
+
+    button:hover {
+      background: #6a5acd; /* Lighter purple */
     }
-    
-    .dashboard {
-        display: flex;
-        justify-content: space-around;
+
+    #result {
+      font-size: 18px;
+      font-weight: bold;
+      color: #4b0082; /* Dark purple */
+      transition: opacity 0.3s ease;
     }
-    
-    .weather-forecast, .market-prices, .soil-moisture {
-        width: 30%;
-        text-align: center;
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-    
-    form {
-        display: flex;
-        flex-direction: column;
+
+    #result {
+      animation: fadeIn 0.5s ease;
     }
-    
-    form label {
-        margin-bottom: 5px;
+
+    #exchangeRateChart {
+      margin-top: 20px;
     }
-    
-    form input, form button {
-        margin-bottom: 10px;
+
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #4b0082;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .container {
+        width: 90%;
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .converter {
+        gap: 8px;
+      }
+
+      input, select, button {
+        font-size: 14px;
         padding: 8px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
+      }
+
+      #result {
+        font-size: 16px;
+      }
     }
-    
-    footer {
-        text-align: center;
-        padding: 10px;
-        background-color: #4CAF50;
-        color: white;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-    }
-</style>
-```
+  </style>
 </head>
 <body>
-<header>
-<h1>AgriTips</h1>
-<nav>
-<ul>
-<li><a href="#home">Home</a></li>
-<li><a href="#advice">Advice</a></li>
-<li><a href="#disease-detection">Crop Disease Detection</a></li>
-<li><a href="#market-prices">Market Prices</a></li>
-<li><a href="#soil-moisture">Soil Moisture</a></li>
-</ul>
-</nav>
-</header>
-<section id="home">
-<h2>Welcome to AgriTips</h2>
-<div class="dashboard">
-<div class="weather-forecast">
-<h3>Weather Forecast</h3>
-<p id="weather-data">Loading weather data...</p>
-</div>
-<div class="market-prices">
-<h3>Market Prices</h3>
-<p id="market-data">Loading market data...</p>
-</div>
-<div class="soil-moisture">
-<h3>Soil Moisture</h3>
-<p id="soil-moisture-data">Loading soil moisture data...</p>
-</div>
-</div>
-</section>
-<section id="advice">
-<h2>Personalized Agricultural Advice</h2>
-<form id="advice-form">
-<label for="crop-type">Crop Type:</label>
-<input type="text" id="crop-type" name="crop-type" required>
-<label for="soil-type">Soil Type:</label>
-<input type="text" id="soil-type" name="soil-type" required>
-<button type="submit">Get Advice</button>
-</form>
-<div id="advice-result"></div>
-</section>
-<section id="disease-detection">
-<h2>Crop Disease Detection</h2>
-<form id="disease-form">
-<label for="crop-image">Upload Crop Image:</label>
-<input type="file" id="crop-image" name="crop-image" accept="image/*" required>
-<button type="submit">Detect Disease</button>
-</form>
-<div id="disease-result"></div>
-</section>
-<section id="market-prices">
-<h2>Market Prices</h2>
-<div id="market-prices-data"></div>
-</section>
-<section id="soil-moisture">
-<h2>Soil Moisture Monitoring</h2>
-<div id="soil-moisture-data"></div>
-</section>
-<footer>
-<p>&copy; 2025 AgriTips. All rights reserved.</p>
-</footer>
-<script>
-// scripts.js
-document.addEventListener('DOMContentLoaded', function() {
-// Placeholder for weather data
-fetchWeatherData();
-// Placeholder for market data
-fetchMarketData();
-// Placeholder for soil moisture data
-fetchSoilMoistureData();
-// Advice form submission
-document.getElementById('advice-form').addEventListener('submit', function(event) {
-event.preventDefault();
-const cropType = document.getElementById('crop-type').value;
-const soilType = document.getElementById('soil-type').value;
-// Simulate advice generation
-document.getElementById('advice-result').innerHTML = `<p>Advice for ${cropType} grown in ${soilType} soil: Ensure proper irrigation and use organic fertilizers.</p>`;
-});
-// Disease detection form submission
-document.getElementById('disease-form').addEventListener('submit', function(event) {
-event.preventDefault();
-const file = document.getElementById('crop-image').files[0];
-if (file) {
-// Simulate disease detection
-document.getElementById('disease-result').innerHTML = `<p>Disease detected: Leaf Rust. Recommended treatment: Apply fungicide.</p>`;
-}
-});
-});
-function fetchWeatherData() {
-// Simulate fetching weather data
-setTimeout(() => {
-document.getElementById('weather-data').innerText = "Sunny, 25°C";
-}, 1000);
-}
-function fetchMarketData() {
-// Simulate fetching market data
-setTimeout(() => {
-document.getElementById('market-data').innerText = "Maize: $200/ton, Wheat: $180/ton";
-}, 1000);
-}
-function fetchSoilMoistureData() {
-// Simulate fetching soil moisture data
-setTimeout(() => {
-document.getElementById('soil-moisture-data').innerText = "Soil Moisture: 60%";
-}, 1000);
-}
-</script>
+  <div class="container">
+    <h1>Osb Currency Converter</h>
+    <div class="converter">
+      <input type="number" id="amount" placeholder="Enter amount" />
+     
+<select id="fromCurrency">
+<option value="USD">USD (US Dollar)</option>
+<option value="EUR">EUR (Euro)</option>
+<option value="GBP">GBP (British Pound)</option>
+<option value="JPY">JPY (Japanese Yen)</option>
+<option value="CNY">CNY (Chinese Yuan)</option>
+<option value="INR">INR (Indian Rupee)</option>
+<option value="ZAR">ZAR (South African Rand)</option>
+<option value="ZWL">ZWL (Zimbabwean Dollar)</option>
+<option value="ZMW">ZMW (Zambian Kwacha)</option>
+<option value="MWK">MWK (Malawian Kwacha)</option>
+<option value="TZS">TZS (Tanzanian Shilling)</option>
+<option value="UGX">UGX (Ugandan Shilling)</option>
+<option value="KES">KES (Kenyan Shilling)</option>
+<option value="BWP">BWP (Botswana Pula)</option>
+<option value="NAD">NAD (Namibian Dollar)</option>
+<option value="SZL">SZL (Swazi Lilangeni)</option>
+<option value="LSL">LSL (Lesotho Loti)</option>
+<option value="XAF">XAF (Central African CFA Franc)</option>
+<option value="XOF">XOF (West African CFA Franc)</option>
+<option value="GHS">GHS (Ghanaian Cedi)</option>
+<option value="NGN">NGN (Nigerian Naira)</option>
+<option value="EGP">EGP (Egyptian Pound)</option>
+<option value="OMR">OMR (Omani Rial)</option>
+<option value="QAR">QAR (Qatari Riyal)</option>
+<option value="KWD">KWD (Kuwaiti Dinar)</option>
+<option value="AED">AED (UAE Dirham)</option>
+</select>
+
+<button id="swapBtn">↔</button>
+
+<select id="toCurrency">
+<option value="USD">USD (US Dollar)</option>
+<option value="EUR">EUR (Euro)</option>
+<option value="GBP">GBP (British Pound)</option>
+<option value="JPY">JPY (Japanese Yen)</option>
+<option value="CNY">CNY (Chinese Yuan)</option>
+<option value="INR">INR (Indian Rupee)</option>
+<option value="ZAR">ZAR (South African Rand)</option>
+<option value="ZWL">ZWL (Zimbabwean Dollar)</option>
+<option value="ZMW">ZMW (Zambian Kwacha)</option>
+<option value="MWK">MWK (Malawian Kwacha)</option>
+<option value="TZS">TZS (Tanzanian Shilling)</option>
+<option value="UGX">UGX (Ugandan Shilling)</option>
+<option value="KES">KES (Kenyan Shilling)</option>
+<option value="BWP">BWP (Botswana Pula)</option>
+<option value="NAD">NAD (Namibian Dollar)</option>
+<option value="SZL">SZL (Swazi Lilangeni)</option>
+<option value="LSL">LSL (Lesotho Loti)</option>
+<option value="XAF">XAF (Central African CFA Franc)</option>
+<option value="XOF">XOF (West African CFA Franc)</option>
+<option value="GHS">GHS (Ghanaian Cedi)</option>
+<option value="NGN">NGN (Nigerian Naira)</option>
+<option value="EGP">EGP (Egyptian Pound)</option>
+<option value="OMR">OMR (Omani Rial)</option>
+<option value="QAR">QAR (Qatari Riyal)</option>
+<option value="KWD">KWD (Kuwaiti Dinar)</option>
+<option value="AED">AED (UAE Dirham)</option>
+</select>
+      </select>
+      <p id="result">Result will appear here</p>
+      <button id="saveFavoriteBtn">Save Favorite</button>
+    </div>
+    <canvas id="exchangeRateChart"></canvas>
+    <div class="footer">©️leejakkers 2024</div>
+  </div>
+  <script>
+    // DOM Elements
+    const amountInput = document.getElementById('amount');
+    const fromCurrency = document.getElementById('fromCurrency');
+    const toCurrency = document.getElementById('toCurrency');
+    const swapBtn = document.getElementById('swapBtn');
+    const saveFavoriteBtn = document.getElementById('saveFavoriteBtn');
+    const resultText = document.getElementById('result');
+    const ctx = document.getElementById('exchangeRateChart').getContext('2d');
+
+    // Favorites
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    // Chart Initialization
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [], // Dates
+        datasets: [{
+          label: 'Exchange Rate History',
+          data: [], // Rates
+          borderColor: '#4b0082',
+          tension: 0.1,
+        }],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: { title: { display: true, text: 'Date' } },
+          y: { title: { display: true, text: 'Rate' } },
+        },
+      },
+    });
+
+    // Fetch Exchange Rate
+    async function fetchExchangeRate(from, to) {
+      const apiKey = 'f0049c3b1557cb652e3de205'; // Replace with your API key
+      const url = `https://v6.exchangerate-api.com/v6/${apiKey}/pair/${from}/${to}`;
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.result === 'success') {
+          return data.conversion_rate;
+        } else {
+          throw new Error(data['error-type']);
+        }
+      } catch (error) {
+        console.error('Error fetching exchange rate:', error);
+        return null;
+      }
+    }
+
+    // Convert Currency
+    async function convertCurrency() {
+      const amount = parseFloat(amountInput.value);
+      const from = fromCurrency.value;
+      const to = toCurrency.value;
+
+      if (isNaN(amount) || amount <= 0) {
+        resultText.textContent = 'Please enter a valid amount.';
+        resultText.style.color = 'red';
+        return;
+      }
+
+      if (from === to) {
+        resultText.textContent = 'Please select different currencies.';
+        resultText.style.color = 'red';
+        return;
+      }
+
+      resultText.style.color = '#4b0082';
+
+      const rate = await fetchExchangeRate(from, to);
+      if (rate) {
+        const result = (amount * rate).toFixed(2);
+        resultText.textContent = `${amount} ${from} = ${result} ${to}`;
+      } else {
+        resultText.textContent = 'Failed to fetch exchange rate.';
+        resultText.style.color = 'red';
+      }
+    }
+
+    // Swap Currencies
+    swapBtn.addEventListener('click', () => {
+      const temp = fromCurrency.value;
+      fromCurrency.value = toCurrency.value;
+      toCurrency.value = temp;
+      convertCurrency();
+    });
+
+    // Save Favorite
+    function saveFavorite() {
+      const from = fromCurrency.value;
+      const to = toCurrency.value;
+      const pair = `${from}-${to}`;
+
+      if (!favorites.includes(pair)) {
+        favorites.push(pair);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        alert('Added to favorites!');
+      } else {
+        alert('This pair is already in your favorites.');
+      }
+    }
+
+    saveFavoriteBtn.addEventListener('click', saveFavorite);
+
+    // Fetch Historical Rates
+    async function fetchHistoricalRates() {
+      const from = fromCurrency.value;
+      const to = toCurrency.value;
+      const url = `https://api.frankfurter.app/2023-01-01..2023-12-31?from=${from}&to=${to}`;
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        chart.data.labels = Object.keys(data.rates);
+        chart.data.datasets[0].data = Object.values(data.rates).map(rate => rate[to]);
+        chart.update();
+      } catch (error) {
+        console.error('Error fetching historical rates:', error);
+      }
+    }
+
+    // Event Listeners
+    amountInput.addEventListener('input', convertCurrency);
+    fromCurrency.addEventListener('change', () => {
+      convertCurrency();
+      fetchHistoricalRates();
+    });
+    toCurrency.addEventListener('change', convertCurrency);
+
+    // Initial Load
+    fetchHistoricalRates();
+  </script>
 </body>
 </html>
