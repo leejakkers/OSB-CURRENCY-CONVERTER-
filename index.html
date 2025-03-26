@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriTips - Empowering Farmers</title>
+<style>
+/* styles.css */
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 0;
+background-color: #f4f4f4;
+}
+
+```    header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+    }
+    
+    header h1 {
+        margin: 0;
+    }
+    
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    nav ul li {
+        display: inline;
+        margin: 0 15px;
+    }
+    
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+    }
+    
+    section {
+        padding: 20px;
+        margin: 20px;
+        background-color: white;
+        border-radius: 8px;
+    }
+    
+    .dashboard {
+        display: flex;
+        justify-content: space-around;
+    }
+    
+    .weather-forecast, .market-prices, .soil-moisture {
+        width: 30%;
+        text-align: center;
+    }
+    
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    form label {
+        margin-bottom: 5px;
+    }
+    
+    form input, form button {
+        margin-bottom: 10px;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+    
+    footer {
+        text-align: center;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
+```
+</head>
+<body>
+<header>
+<h1>AgriTips</h1>
+<nav>
+<ul>
+<li><a href="#home">Home</a></li>
+<li><a href="#advice">Advice</a></li>
+<li><a href="#disease-detection">Crop Disease Detection</a></li>
+<li><a href="#market-prices">Market Prices</a></li>
+<li><a href="#soil-moisture">Soil Moisture</a></li>
+</ul>
+</nav>
+</header>
+<section id="home">
+<h2>Welcome to AgriTips</h2>
+<div class="dashboard">
+<div class="weather-forecast">
+<h3>Weather Forecast</h3>
+<p id="weather-data">Loading weather data...</p>
+</div>
+<div class="market-prices">
+<h3>Market Prices</h3>
+<p id="market-data">Loading market data...</p>
+</div>
+<div class="soil-moisture">
+<h3>Soil Moisture</h3>
+<p id="soil-moisture-data">Loading soil moisture data...</p>
+</div>
+</div>
+</section>
+<section id="advice">
+<h2>Personalized Agricultural Advice</h2>
+<form id="advice-form">
+<label for="crop-type">Crop Type:</label>
+<input type="text" id="crop-type" name="crop-type" required>
+<label for="soil-type">Soil Type:</label>
+<input type="text" id="soil-type" name="soil-type" required>
+<button type="submit">Get Advice</button>
+</form>
+<div id="advice-result"></div>
+</section>
+<section id="disease-detection">
+<h2>Crop Disease Detection</h2>
+<form id="disease-form">
+<label for="crop-image">Upload Crop Image:</label>
+<input type="file" id="crop-image" name="crop-image" accept="image/*" required>
+<button type="submit">Detect Disease</button>
+</form>
+<div id="disease-result"></div>
+</section>
+<section id="market-prices">
+<h2>Market Prices</h2>
+<div id="market-prices-data"></div>
+</section>
+<section id="soil-moisture">
+<h2>Soil Moisture Monitoring</h2>
+<div id="soil-moisture-data"></div>
+</section>
+<footer>
+<p>&copy; 2025 AgriTips. All rights reserved.</p>
+</footer>
+<script>
+// scripts.js
+document.addEventListener('DOMContentLoaded', function() {
+// Placeholder for weather data
+fetchWeatherData();
+// Placeholder for market data
+fetchMarketData();
+// Placeholder for soil moisture data
+fetchSoilMoistureData();
+// Advice form submission
+document.getElementById('advice-form').addEventListener('submit', function(event) {
+event.preventDefault();
+const cropType = document.getElementById('crop-type').value;
+const soilType = document.getElementById('soil-type').value;
+// Simulate advice generation
+document.getElementById('advice-result').innerHTML = `<p>Advice for ${cropType} grown in ${soilType} soil: Ensure proper irrigation and use organic fertilizers.</p>`;
+});
+// Disease detection form submission
+document.getElementById('disease-form').addEventListener('submit', function(event) {
+event.preventDefault();
+const file = document.getElementById('crop-image').files[0];
+if (file) {
+// Simulate disease detection
+document.getElementById('disease-result').innerHTML = `<p>Disease detected: Leaf Rust. Recommended treatment: Apply fungicide.</p>`;
+}
+});
+});
+function fetchWeatherData() {
+// Simulate fetching weather data
+setTimeout(() => {
+document.getElementById('weather-data').innerText = "Sunny, 25°C";
+}, 1000);
+}
+function fetchMarketData() {
+// Simulate fetching market data
+setTimeout(() => {
+document.getElementById('market-data').innerText = "Maize: $200/ton, Wheat: $180/ton";
+}, 1000);
+}
+function fetchSoilMoistureData() {
+// Simulate fetching soil moisture data
+setTimeout(() => {
+document.getElementById('soil-moisture-data').innerText = "Soil Moisture: 60%";
+}, 1000);
+}
+</script>
+</body>
+</html>
